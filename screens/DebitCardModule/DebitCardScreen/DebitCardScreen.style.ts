@@ -1,8 +1,8 @@
 import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from 'react-native';
-import Sizes from '../../common/theme/size';
+import Sizes from '../../../common/theme/size';
 import { moderateScale } from 'react-native-size-matters';
-import { font } from '../../common/theme/font';
-import Colors from '../../common/theme/color';
+import { font } from '../../../common/theme/font';
+import colors from '../../../common/theme/color';
 
 // Styles with proper typing
 interface Styles {
@@ -62,11 +62,11 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
   },
   bottomSafeAreaView:{
     flex: 1,
-    backgroundColor: Colors.backgroundLight
+    backgroundColor: colors.backgroundLight
   },
   bottomContainer:{
     zIndex: 10,
-    backgroundColor: Colors.backgroundLight
+    backgroundColor: colors.backgroundLight
   },
   header: {
     paddingHorizontal: 20,
@@ -274,6 +274,37 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
     fontSize: 18,
     fontWeight: 'bold',
     fontStyle: 'italic',
+  },
+  limitContainer: {
+    paddingHorizontal: 20,
+    marginTop: 30,
+    width: '100%'
+  },
+  limitHeader:{
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  limitAmount:{
+    flexDirection: 'row'
+  },
+  balanceCurrency:{
+    color: "#01D167"
+  },
+  limitCurrency:{
+    color: "#22222233"
+  },
+  progressBarContainer: {
+    width: "100%", 
+    height: 15, 
+    backgroundColor: '#E8F5E8', 
+    marginVertical: 10, 
+    borderRadius: 10
+  },
+  progressBarFill: {
+    height: '100%', 
+    backgroundColor: '#01D167', 
+    borderRadius: 10
   },
   menuContainer: {
     paddingHorizontal: 20,

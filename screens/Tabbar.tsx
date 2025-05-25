@@ -5,7 +5,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 // Import screens
 import HomeScreen from '../screens/HomeModule/HomeScreen';
-import DebitCardScreen from '../screens/DebitCardModule/DebitCardScreen';
+import DebitCardScreen from './DebitCardModule/DebitCardScreen/DebitCardScreen';
 import PaymentsScreen from '../screens/PaymentsModule/PaymentsScreen';
 import CreditScreen from '../screens/CreditModule/CreditScreen';
 import ProfileScreen from '../screens/ProfileModule/ProfileScreen';
@@ -50,9 +50,10 @@ const TabBarLabel: React.FC<TabBarLabelProps> = ({ focused, color, children }) =
   );
 };
 
-const TabNavigator: React.FC = () => {
+const DashboardTabbar: React.FC = () => {
   return (
     <Tab.Navigator
+      initialRouteName="DebitCard"
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBar,
@@ -131,4 +132,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TabNavigator;
+export default DashboardTabbar;

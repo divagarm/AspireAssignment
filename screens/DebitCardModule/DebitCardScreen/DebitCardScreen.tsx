@@ -7,14 +7,14 @@ import {
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
-  ViewStyle,
-  TextStyle,
+  Switch,
   ScrollView
 } from 'react-native';
 import { Ionicons, MaterialIcons, Feather } from '@expo/vector-icons';
 import debitCardScreenStyles from "./DebitCardScreen.style";
-import { DebitCardScreenProps, MenuItemData } from './DebitCardTypeConstants';
-import { statusBarData } from '../../common/constants/constantValue';
+import { DebitCardScreenProps, MenuItemData } from '../TypeConstants';
+import { cardData, formatCardNumber, menuItems } from '../Utility';
+import { useNavigation } from '@react-navigation/native';
 // import TopUp from "../../assets/top_up.svg";
 // import WeeklySpendLimit from "../../assets/weekly_spend_limit.svg";
 // import FreezeCard from "../../assets/freeze_card.svg";
@@ -23,80 +23,75 @@ import { statusBarData } from '../../common/constants/constantValue';
 
 const { width } = Dimensions.get('window');
 
-const DebitCardScreen: React.FC<DebitCardScreenProps> = ({
-  cardData = {
-    holderName: 'Mark Henry',
-    cardNumber: '5647893214567890',
-    expiryDate: '12/20',
-    cvv: '123',
-    balance: 3000,
-    currency: 'S$',
-  },
-  onTopUp,
-  onSetSpendingLimit,
-  onFreezeCard,
-  onNavigate,
-}) => {
+const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
+
+  const navigation = useNavigation();
+
   const [showCardNumber, setShowCardNumber] = useState<boolean>(false);
 
-  const menuItems: MenuItemData[] = [
-    {
-      id: 'topup',
-      title: 'Top-up account',
-      subtitle: 'Deposit money to your account to use with card',
-      icon: ""
-    },
-    {
-      id: 'spending-limit',
-      title: 'Weekly spending limit',
-      subtitle: "You haven't set any spending limit on card",
-      icon: ""
-    },
-    {
-      id: 'freeze-card',
-      title: 'Freeze card',
-      subtitle: 'Your debit card is currently active',
-      icon: ""
-    },
-    {
-      id: 'get-new-card',
-      title: 'Get a new card',
-      subtitle: 'This deactivates your current debit card',
-      icon: ""
-    },
-    {
-      id: 'deactivated-card',
-      title: 'Deactivated cards',
-      subtitle: 'Your previously deactivated cards',
-      icon: ""
-    }
-  ];
+  const [toggles, setToggles] = useState({
+  weeklySpendLimit: { enabled: false, limit: 0 },
+  freezeCard: { enabled: false }
+  });
 
-  const formatCardNumber = (number: string, masked: boolean = true): string => {
-    if (masked) {
-      return `•••• •••• •••• ${number.slice(-4)}`;
+  console.log("xxx toggles", toggles);
+
+  const onSetSpendingLimit = (toggleValue: boolean) => { 
+    if(toggles?.weeklySpendLimit?.limit !== 0) {
+      setToggles({
+        ...toggles,
+        weeklySpendLimit: { enabled: toggleValue, limit: toggles.weeklySpendLimit.limit }
+      });
+    } else {
+      navigation.navigate('SelectSpendingLimit', 
+        { currentLimit: toggles?.weeklySpendLimit?.limit,
+          onSaveLimit: (selectedLimit) => {
+            if (selectedLimit !== undefined) {
+              setToggles({
+                ...toggles,
+                weeklySpendLimit: { enabled: toggleValue, limit: selectedLimit }
+              });
+            }
+          }
+        });
     }
-    return number.replace(/(.{4})/g, '$1 ').trim();
   };
 
-  const formatBalance = (amount: number): string => {
-    return amount.toLocaleString();
+  const onFreezeCard = (toggleValue: boolean) => { 
+
   };
 
-  const handleMenuItemPress = (itemId: string): void => {
+  const handleMenuItemPress = (itemId: string, toggleValue: boolean): void => {
     switch (itemId) {
       case 'topup':
-        onTopUp?.();
+        // ToDO
         break;
-      case 'spending-limit':
-        onSetSpendingLimit?.();
+      case 'weeklySpendLimit':
+        onSetSpendingLimit?.(toggleValue);
         break;
-      case 'freeze-card':
-        onFreezeCard?.();
+      case 'freezeCard':
+        onFreezeCard?.(toggleValue);
         break;
+      case 'getNewCard':
+        // ToDO
+      break;
+      case 'deactivatedCard':
+        // ToDO
+      break;
       default:
         break;
     }
+  };
+
+  const renderMenuIcon = (item: MenuItemData): JSX.Element => {
+    const IconComponent = item.iconLibrary === 'Ionicons' ? Ionicons : MaterialIcons;
+    return (
+      <IconComponent
+        name={item.icon as any}
+        size={24}
+        color="white"
+      />
+    );
   };
 
   return (
@@ -127,7 +122,7 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = ({
               <View style={debitCardScreenStyles.currencyBadge}>
                 <Text style={debitCardScreenStyles.currencyText}>{cardData.currency}</Text>
               </View>
-              <Text style={debitCardScreenStyles.balanceAmount}>{formatBalance(cardData.balance)}</Text>
+              <Text style={debitCardScreenStyles.balanceAmount}>{cardData.balance.toLocaleString()}</Text>
             </View>
           </View>
         </View>
@@ -135,10 +130,9 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = ({
         <ScrollView 
         style={{height: '70%', zIndex: 10 }}
         contentContainerStyle={{
-          paddingTop:
-            (debitCardScreenStyles.header.height || 50) +
-            (debitCardScreenStyles.balanceSection.height || 80), // adjust these values as per your style
-        }}>
+          paddingTop: "30%"
+        }}
+        showsVerticalScrollIndicator={false}>
           {/* Show Card Number Button */}
           <View style={debitCardScreenStyles.showCardContainer}>
             <TouchableOpacity 
@@ -192,24 +186,80 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = ({
           </View>
 
           <View style={debitCardScreenStyles.bottomContainer}>
+            {/* Daily card spending limit */}
+            {
+              (toggles?.weeklySpendLimit?.enabled && toggles?.weeklySpendLimit?.limit) && 
+              (
+                <View style={debitCardScreenStyles.limitContainer}>
+                  <View style={debitCardScreenStyles.limitHeader}>
+                    <Text>
+                    Debit card spending limit
+                    </Text>
+                    <Text style={debitCardScreenStyles.limitAmount}>
+                      <Text style={debitCardScreenStyles.balanceCurrency}>
+                        ${cardData.balance}
+                      </Text>
+                      <Text style={debitCardScreenStyles.limitCurrency}>
+                        |   ${toggles?.weeklySpendLimit?.limit.toLocaleString()}
+                      </Text>
+                    </Text>
+                  </View>
+                  <View style={debitCardScreenStyles.progressBarContainer}>
+                    <View style={[ debitCardScreenStyles.progressBarFill, { width: `${(parseInt(cardData.balance) / parseInt(toggles?.weeklySpendLimit?.limit)) * 100}%`}]} />
+                  </View>
+                </View>
+              )
+            }
+
             {/* Menu Options */}
             <View style={debitCardScreenStyles.menuContainer}>
-              {menuItems.map((item) => (
+              {menuItems.map((item) => {
+                let title = item.title;
+                let subtitle = item.subtitle;
+                let toggled;
+                if(item.toggleable) {
+                    toggled = toggles?.[item.id]?.enabled;
+                    if (item.id === 'weeklySpendLimit') {
+                        title = toggled ? item.inverseTitle : item.title;
+                        subtitle = toggled ? item.inverseSubtitle + toggles?.[item.id]?.limit : item.subtitle;
+                    } else if (item.id === 'freezeCard') {
+                        title = toggled ? item.inverseTitle : item.title;
+                        subtitle = toggled ? item.inverseSubtitle : item.subtitle;
+                    }
+                }
+
+                return (
                 <TouchableOpacity 
+                  disabled={item.toggleable}
                   key={item.id}
                   style={debitCardScreenStyles.menuItem}
                   onPress={() => handleMenuItemPress(item.id)}
                   activeOpacity={0.7}
                 >
                   <View style={debitCardScreenStyles.menuIcon}>
+                    {renderMenuIcon(item)}
                     {/* <TopUp width = {32} height = {32} /> */}
                   </View>
                   <View style={debitCardScreenStyles.menuTextContainer}>
-                    <Text style={debitCardScreenStyles.menuTitle}>{item.title}</Text>
-                    <Text style={debitCardScreenStyles.menuSubtitle}>{item.subtitle}</Text>
+                    <Text style={debitCardScreenStyles.menuTitle}>{title}</Text>
+                    <Text style={debitCardScreenStyles.menuSubtitle}>{subtitle}</Text>
                   </View>
+                  {
+                    item.toggleable && (
+                      <Switch
+                        trackColor={{false: '#EEEEEE', true: '#01D167'}}
+                        thumbColor={toggled ? '#EEEEEE' : '#f4f3f4'}
+                        ios_backgroundColor="#EEEEEE"
+                        onValueChange={(val) => {
+                          handleMenuItemPress(item.id, val)
+                        }}
+                        value={toggled}
+                      />
+                    )
+                  }
                 </TouchableOpacity>
-              ))}
+              )
+              })}
             </View>
           </View>
         </ScrollView>
