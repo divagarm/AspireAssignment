@@ -12,6 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { RootStateTypes } from "../../../redux/types/RootStateTypes";
 import { addNewDebitCard } from "../../../redux/actions/debitCardModuleActions";
+import * as Yup from "yup";
+import { Formik } from "formik";
 
 const styles = StyleSheet.create({
   container: {
@@ -30,7 +32,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    height: "40%",
+    height: "42%",
     width: "80%",
     padding: 30,
     backgroundColor: "white",
@@ -110,8 +112,6 @@ const AddNewCardModal: React.FC<AddNewCardModalProps> = ({
   addNewCardModalVisible,
   setAddNewCardModalVisible,
 }) => {
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardHolderName, setCardHolderName] = useState("");
   const dispatch: AppDispatch = useDispatch();
   const debitCardData = useSelector(
     (state: RootStateTypes) => state.debitCardModule.debitCardData ?? [],
@@ -124,75 +124,109 @@ const AddNewCardModal: React.FC<AddNewCardModalProps> = ({
       visible={addNewCardModalVisible}
     >
       <View style={styles.modalBackground}>
-        <View style={styles.modalContainer}>
-          <TouchableOpacity
-            style={styles.closeButton}
-            onPress={() => setAddNewCardModalVisible(false)}
-          >
-            <Text style={styles.closeButtonText}>×</Text>
-          </TouchableOpacity>
-          <Text style={styles.title}>Card Number</Text>
-          <TextInput
-            style={styles.input}
-            value={cardNumber}
-            onChangeText={setCardNumber}
-            placeholder="XXXX XXXX XXXX XXXX"
-            keyboardType="numeric"
-            maxLength={16}
-          />
-          <Text style={styles.title2}>Card Holder Name</Text>
-          <TextInput
-            style={styles.input}
-            value={cardHolderName}
-            onChangeText={setCardHolderName}
-            placeholder="Enter card name"
-          />
-          <View style={styles.saveButtonContainer}>
-            <TouchableOpacity
-              style={[
-                styles.saveButton,
-                cardNumber.length === 16 &&
-                  cardHolderName.length > 0 &&
-                  styles.saveButtonEnabled,
-              ]}
-              onPress={() => {
-                dispatch(
-                  addNewDebitCard({
-                    id: debitCardData.length + 1,
-                    holderName: cardHolderName,
-                    cardNumber: cardNumber,
-                    expiryDate: generateRandomExpiryDate(),
-                    cvv: generateRandomCVV(),
-                    balance: 500,
-                    currency: "S$",
-                    weeklySpendLimit: { enabled: false, limit: 0 },
-                    freezeCard: { enabled: false },
-                  }),
-                );
-                setAddNewCardModalVisible(false);
-                setCardNumber("");
-                setCardHolderName("");
-              }}
-              disabled={
-                cardNumber.length === 16 && cardHolderName.length > 0
-                  ? false
-                  : true
-              }
-              activeOpacity={0.7}
-            >
-              <Text
-                style={[
-                  styles.saveButtonText,
-                  cardNumber.length === 16 &&
-                    cardHolderName.length > 0 &&
-                    styles.saveButtonTextEnabled,
-                ]}
-              >
-                Save
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        <Formik
+          initialValues={{
+            cardNumber: "",
+            cardHolderName: "",
+          }}
+          onSubmit={() => {}}
+          validationSchema={Yup.object().shape({
+            cardNumber: Yup.string()
+              .required("required")
+              .matches(/^\d{16}$/, "Enter a valid 16-digit card number"),
+            cardHolderName: Yup.string().required("required"),
+          })}
+          validateOnMount
+          validateOnBlur
+          validateOnChange
+          component={({
+            handleChange,
+            handleBlur,
+            setFieldValue,
+            touched,
+            values,
+            errors,
+            isValid,
+          }: any) => {
+            const { cardNumber, cardHolderName } = values;
+
+            console.log("touched:", touched);
+            console.log("errors:", errors);
+            console.log("values:", values);
+            console.log("isValid:", isValid);
+            return (
+              <View style={styles.modalContainer}>
+                <TouchableOpacity
+                  style={styles.closeButton}
+                  onPress={() => setAddNewCardModalVisible(false)}
+                >
+                  <Text style={styles.closeButtonText}>×</Text>
+                </TouchableOpacity>
+                <Text style={styles.title}>Card Number</Text>
+                <TextInput
+                  style={styles.input}
+                  value={cardNumber}
+                  onChangeText={handleChange("cardNumber")}
+                  onBlur={handleBlur("cardNumber")}
+                  placeholder="XXXX XXXX XXXX XXXX"
+                  keyboardType="numeric"
+                  maxLength={16}
+                />
+                {touched.cardNumber && errors.cardNumber ? (
+                  <Text style={{ color: "red" }}>{errors.cardNumber}</Text>
+                ) : null}
+                <Text style={styles.title2}>Card Holder Name</Text>
+                <TextInput
+                  style={styles.input}
+                  value={cardHolderName}
+                  onChangeText={handleChange("cardHolderName")}
+                  onBlur={handleBlur("cardHolderName")}
+                  placeholder="Enter card holder name"
+                />
+                {touched.cardHolderName && errors.cardHolderName ? (
+                  <Text style={{ color: "red" }}>{errors.cardHolderName}</Text>
+                ) : null}
+                <View style={styles.saveButtonContainer}>
+                  <TouchableOpacity
+                    style={[
+                      styles.saveButton,
+                      isValid && styles.saveButtonEnabled,
+                    ]}
+                    onPress={() => {
+                      dispatch(
+                        addNewDebitCard({
+                          id: debitCardData.length + 1,
+                          holderName: cardHolderName,
+                          cardNumber: cardNumber,
+                          expiryDate: generateRandomExpiryDate(),
+                          cvv: generateRandomCVV(),
+                          balance: 500,
+                          currency: "S$",
+                          weeklySpendLimit: { enabled: false, limit: 0 },
+                          freezeCard: { enabled: false },
+                        }),
+                      );
+                      setAddNewCardModalVisible(false);
+                      setFieldValue("cardNumber", "");
+                      setFieldValue("cardHolderName", "");
+                    }}
+                    disabled={!isValid}
+                    activeOpacity={0.7}
+                  >
+                    <Text
+                      style={[
+                        styles.saveButtonText,
+                        isValid && styles.saveButtonTextEnabled,
+                      ]}
+                    >
+                      Save
+                    </Text>
+                  </TouchableOpacity>
+                </View>
+              </View>
+            );
+          }}
+        />
       </View>
     </Modal>
   );
