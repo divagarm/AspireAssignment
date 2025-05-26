@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent } from "@testing-library/react-native";
 import { questions } from "../Constants/ConstantValue";
 import QuestionsScreen from "../screens/questionsScreen/questionsScreen";
-import * as actions from "../redux/actions/assessment";
+import * as actions from "../redux/actions/debitCardModuleActions";
 import { mockNavigation, renderComponents } from "./jestHelperFunctions";
 
 describe("QuestionsScreen Component", () => {

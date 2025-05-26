@@ -1,7 +1,7 @@
 import React from "react";
 import { fireEvent, waitFor } from "@testing-library/react-native";
 import ScoreDisplayScreen from "../screens/scoreDisplayScreen/scoreDisplayScreen";
-import * as actions from "../redux/actions/assessment";
+import * as actions from "../redux/actions/debitCardModuleActions";
 import { mockNavigation, renderComponents } from "./jestHelperFunctions";
 
 describe("ScoreDisplayScreen Component", () => {

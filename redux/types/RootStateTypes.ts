@@ -1,7 +1,8 @@
-import { TAssessmentData } from "../reducers/assessment";
+import { DebitCardModuleType } from "../../screens/DebitCardModule/TypeConstants";
+import { TAssessmentData } from "../reducers/debitCardModuleReducer";
 
 export interface RootStateTypes {
-    assessmentData: TAssessmentData;
+    debitCardModule: DebitCardModuleType;
 }
 
 export interface TAction {

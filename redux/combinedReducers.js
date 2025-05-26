@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
 
-import assessmentDataReducer from "./reducers/assessment";
+import debitCardModuleReducer from "./reducers/debitCardModuleReducer";
 
 const appReducer = combineReducers({
-  assessmentData: assessmentDataReducer,
+  debitCardModule: debitCardModuleReducer,
 });
 
 const rootReducer = (state, action) => {

@@ -291,6 +291,9 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
   balanceCurrency:{
     color: "#01D167"
   },
+  seperationStyle:{
+    paddingHorizontal: 10,
+  },
   limitCurrency:{
     color: "#22222233"
   },
@@ -355,6 +358,15 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
   },
   activeNavText: {
     color: '#01D167',
+  },
+  paginationContainerStyle:{
+    paddingVertical:10
+  },
+  paginationDotStyle: {
+    backgroundColor: "#01D167",
+    width: 7,
+    height: 7,
+    borderRadius: 7 / 2
   },
 });
 

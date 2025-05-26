@@ -37,7 +37,7 @@ export interface DebitCardScreenProps {
 }
 
 export interface SelectSpendingLimitProps {
-
+  cardDetails: DebitCardFormat;
 }
 
 // Navigation types
@@ -62,4 +62,26 @@ export interface SpendingLimitOption {
   id: string;
   amount: number;
   displayText: string;
+}
+
+export interface DebitCardFormat {
+    id: number,
+    holderName: string,
+    cardNumber: string,
+    expiryDate: string,
+    cvv: string,
+    balance: number,
+    currency: string,
+    weeklySpendLimit: { enabled: boolean, limit: number },
+    freezeCard: { enabled: boolean }
+  }
+
+
+export type DebitCardModuleType = {
+  debitCardData: DebitCardFormat[];
+};
+
+export interface AddNewCardModalProps {
+  addNewCardModalVisible: boolean;
+   setAddNewCardModalVisible: (visible: boolean) => void;
 }

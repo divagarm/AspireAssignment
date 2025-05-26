@@ -16,11 +16,16 @@ import { Ionicons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
 import type { StackNavigationProp } from '@react-navigation/stack';
 import colors from "../../../common/theme/color";
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../../../redux/store';
+import { updateWeeklySpendingLimitData } from '../../../redux/actions/debitCardModuleActions';
 
-const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = ({ route: { params } }) => {
+const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = ({ route: { params = {} } }) => {
 
+  console.log("xxx params", params);
+  const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<SpendingLimitScreenNavigationProp>();
-  const [selectedLimit, setSelectedLimit] = useState<number>(params.currentLimit);
+  const [selectedLimit, setSelectedLimit] = useState<number>(params.cardDetails?.weeklySpendLimit?.limit || 0);
 
   // Predefined spending limit options
   const spendingLimitOptions: SpendingLimitOption[] = [
@@ -55,8 +60,15 @@ const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = ({ route: { para
       return;
     }
 
-    // Call the onSaveLimit callback if provided
-    params?.onSaveLimit?.(selectedLimit);
+    dispatch(
+          updateWeeklySpendingLimitData({
+            cardID: params.cardDetails.id,
+            weeklySpendLimitData: {
+              enabled: true,
+              limit: selectedLimit
+            }
+          })
+        );
 
     // Show success message
     Alert.alert(

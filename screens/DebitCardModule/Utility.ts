@@ -64,11 +64,7 @@ export const menuItems: MenuItemData[] = [
 
   export const formatCardNumber = (number: string, masked: boolean = true): string => {
     if (masked) {
-      return `•••• •••• •••• ${number.slice(-4)}`;
+      return `•••• •••• •••• ${number?.slice(-4)}`;
     }
-    return number.replace(/(.{4})/g, '$1 ').trim();
-  };
-
-  export const formatBalance = (amount: number): string => {
-    return amount.toLocaleString();
+    return number?.replace(/(.{4})/g, '$1 ')?.trim();
   };

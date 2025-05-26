@@ -1,9 +1,9 @@
-import { assessmentData } from "./sagas/assessment"; 
+import { debitCardModuleSagas } from "./sagas/debitCardModuleSaga"; 
 import {all} from "redux-saga/effects";
 
 
 export default function *sagas(): any {
     yield all([
-        assessmentData(),
+        debitCardModuleSagas(),
       ]);    
 }
