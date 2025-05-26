@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import {
   View,
   Text,
@@ -7,17 +7,15 @@ import {
   ScrollView,
   TouchableOpacity,
   Image,
-} from 'react-native';
+} from "react-native";
 
 const ProfileScreen: React.FC = () => {
-
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView showsVerticalScrollIndicator={false}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Profile</Text>
         </View>
-
       </ScrollView>
     </SafeAreaView>
   );
@@ -26,7 +24,7 @@ const ProfileScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: "#F8F9FA",
   },
   header: {
     paddingHorizontal: 20,
@@ -35,9 +33,9 @@ const styles = StyleSheet.create({
   },
   headerTitle: {
     fontSize: 28,
-    fontWeight: 'bold',
-    color: '#2E4F7A',
-  }
+    fontWeight: "bold",
+    color: "#2E4F7A",
+  },
 });
 
 export default ProfileScreen;

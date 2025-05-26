@@ -1,14 +1,14 @@
-import React from 'react';
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { Ionicons } from '@expo/vector-icons';
-import { View, Text, StyleSheet } from 'react-native';
+import React from "react";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { Ionicons } from "@expo/vector-icons";
+import { View, Text, StyleSheet } from "react-native";
 
 // Import screens
-import HomeScreen from '../screens/HomeModule/HomeScreen';
-import DebitCardScreen from './DebitCardModule/DebitCardScreen/DebitCardScreen';
-import PaymentsScreen from '../screens/PaymentsModule/PaymentsScreen';
-import CreditScreen from '../screens/CreditModule/CreditScreen';
-import ProfileScreen from '../screens/ProfileModule/ProfileScreen';
+import HomeScreen from "../screens/HomeModule/HomeScreen";
+import DebitCardScreen from "./DebitCardModule/DebitCardScreen/DebitCardScreen";
+import PaymentsScreen from "../screens/PaymentsModule/PaymentsScreen";
+import CreditScreen from "../screens/CreditModule/CreditScreen";
+import ProfileScreen from "../screens/ProfileModule/ProfileScreen";
 
 // Navigation types
 export type TabParamList = {
@@ -33,18 +33,21 @@ interface TabBarLabelProps {
   children: string;
 }
 
-const TabBarIcon: React.FC<TabBarIconProps & { name: keyof typeof Ionicons.glyphMap }> = ({
-  focused,
-  color,
-  size,
-  name,
-}) => {
+const TabBarIcon: React.FC<
+  TabBarIconProps & { name: keyof typeof Ionicons.glyphMap }
+> = ({ focused, color, size, name }) => {
   return <Ionicons name={name} size={size} color={color} />;
 };
 
-const TabBarLabel: React.FC<TabBarLabelProps> = ({ focused, color, children }) => {
+const TabBarLabel: React.FC<TabBarLabelProps> = ({
+  focused,
+  color,
+  children,
+}) => {
   return (
-    <Text style={[styles.tabLabel, { color, fontWeight: focused ? '600' : '400' }]}>
+    <Text
+      style={[styles.tabLabel, { color, fontWeight: focused ? "600" : "400" }]}
+    >
       {children}
     </Text>
   );
@@ -57,10 +60,10 @@ const DashboardTabbar: React.FC = () => {
       screenOptions={{
         headerShown: false,
         tabBarStyle: styles.tabBar,
-        tabBarActiveTintColor: '#4CAF50',
-        tabBarInactiveTintColor: '#8E8E93',
+        tabBarActiveTintColor: "#4CAF50",
+        tabBarInactiveTintColor: "#8E8E93",
         tabBarShowLabel: true,
-        tabBarLabelPosition: 'below-icon',
+        tabBarLabelPosition: "below-icon",
       }}
     >
       <Tab.Screen
@@ -68,7 +71,10 @@ const DashboardTabbar: React.FC = () => {
         component={HomeScreen}
         options={{
           tabBarIcon: (props) => (
-            <TabBarIcon {...props} name={props.focused ? 'home' : 'home-outline'} />
+            <TabBarIcon
+              {...props}
+              name={props.focused ? "home" : "home-outline"}
+            />
           ),
           tabBarLabel: (props) => <TabBarLabel {...props}>Home</TabBarLabel>,
         }}
@@ -78,9 +84,14 @@ const DashboardTabbar: React.FC = () => {
         component={DebitCardScreen}
         options={{
           tabBarIcon: (props) => (
-            <TabBarIcon {...props} name={props.focused ? 'card' : 'card-outline'} />
+            <TabBarIcon
+              {...props}
+              name={props.focused ? "card" : "card-outline"}
+            />
           ),
-          tabBarLabel: (props) => <TabBarLabel {...props}>Debit Card</TabBarLabel>,
+          tabBarLabel: (props) => (
+            <TabBarLabel {...props}>Debit Card</TabBarLabel>
+          ),
         }}
       />
       <Tab.Screen
@@ -88,9 +99,14 @@ const DashboardTabbar: React.FC = () => {
         component={PaymentsScreen}
         options={{
           tabBarIcon: (props) => (
-            <TabBarIcon {...props} name={props.focused ? 'remove-circle' : 'remove-circle-outline'} />
+            <TabBarIcon
+              {...props}
+              name={props.focused ? "remove-circle" : "remove-circle-outline"}
+            />
           ),
-          tabBarLabel: (props) => <TabBarLabel {...props}>Payments</TabBarLabel>,
+          tabBarLabel: (props) => (
+            <TabBarLabel {...props}>Payments</TabBarLabel>
+          ),
         }}
       />
       <Tab.Screen
@@ -98,7 +114,10 @@ const DashboardTabbar: React.FC = () => {
         component={CreditScreen}
         options={{
           tabBarIcon: (props) => (
-            <TabBarIcon {...props} name={props.focused ? 'arrow-up' : 'arrow-up-outline'} />
+            <TabBarIcon
+              {...props}
+              name={props.focused ? "arrow-up" : "arrow-up-outline"}
+            />
           ),
           tabBarLabel: (props) => <TabBarLabel {...props}>Credit</TabBarLabel>,
         }}
@@ -108,7 +127,10 @@ const DashboardTabbar: React.FC = () => {
         component={ProfileScreen}
         options={{
           tabBarIcon: (props) => (
-            <TabBarIcon {...props} name={props.focused ? 'person' : 'person-outline'} />
+            <TabBarIcon
+              {...props}
+              name={props.focused ? "person" : "person-outline"}
+            />
           ),
           tabBarLabel: (props) => <TabBarLabel {...props}>Profile</TabBarLabel>,
         }}
@@ -119,9 +141,9 @@ const DashboardTabbar: React.FC = () => {
 
 const styles = StyleSheet.create({
   tabBar: {
-    backgroundColor: 'white',
+    backgroundColor: "white",
     borderTopWidth: 1,
-    borderTopColor: '#E5E5EA',
+    borderTopColor: "#E5E5EA",
     paddingTop: 8,
     paddingBottom: 8,
     height: 84,

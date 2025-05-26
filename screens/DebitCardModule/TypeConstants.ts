@@ -28,13 +28,7 @@ export interface StatusBarData {
 }
 
 // Props interface
-export interface DebitCardScreenProps {
-  // cardData?: CardData;
-  // onTopUp?: () => void;
-  // onSetSpendingLimit?: () => void;
-  // onFreezeCard?: () => void;
-  // onNavigate?: (screen: string) => void;
-}
+export interface DebitCardScreenProps {}
 
 export interface SelectSpendingLimitProps {
   cardDetails: DebitCardFormat;
@@ -48,7 +42,7 @@ export type RootStackParamList = {
 
 export type SpendingLimitScreenNavigationProp = StackNavigationProp<
   RootStackParamList,
-  'SpendingLimit'
+  "SpendingLimit"
 >;
 
 // Component props interface
@@ -65,17 +59,16 @@ export interface SpendingLimitOption {
 }
 
 export interface DebitCardFormat {
-    id: number,
-    holderName: string,
-    cardNumber: string,
-    expiryDate: string,
-    cvv: string,
-    balance: number,
-    currency: string,
-    weeklySpendLimit: { enabled: boolean, limit: number },
-    freezeCard: { enabled: boolean }
-  }
-
+  id: number;
+  holderName: string;
+  cardNumber: string;
+  expiryDate: string;
+  cvv: string;
+  balance: number;
+  currency: string;
+  weeklySpendLimit: { enabled: boolean; limit: number };
+  freezeCard: { enabled: boolean };
+}
 
 export type DebitCardModuleType = {
   debitCardData: DebitCardFormat[];
@@ -83,5 +76,5 @@ export type DebitCardModuleType = {
 
 export interface AddNewCardModalProps {
   addNewCardModalVisible: boolean;
-   setAddNewCardModalVisible: (visible: boolean) => void;
+  setAddNewCardModalVisible: (visible: boolean) => void;
 }

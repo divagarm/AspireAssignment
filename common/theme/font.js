@@ -1,3 +1,1 @@
-export const font = {
-    
-}
+export const font = {};
