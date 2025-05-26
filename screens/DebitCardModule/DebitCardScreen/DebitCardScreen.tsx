@@ -1,15 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import {
   View,
   Text,
-  Image,
   StatusBar,
   TouchableOpacity,
   SafeAreaView,
   Dimensions,
   Switch,
   ScrollView,
-  Modal,
 } from "react-native";
 import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 import debitCardScreenStyles from "./DebitCardScreen.style";
@@ -18,7 +16,7 @@ import {
   DebitCardScreenProps,
   MenuItemData,
 } from "../TypeConstants";
-import { cardData, formatCardNumber, menuItems } from "../Utility";
+import { formatCardNumber, menuItems } from "../Utility";
 import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
@@ -40,21 +38,18 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch: AppDispatch = useDispatch();
 
-  const [showCardNumber, setShowCardNumber] = useState<boolean>(false);
-
-  const [activeSlide, setActiveSlide] = React.useState(0);
-
-  const [addNewCardModalVisible, setAddNewCardModalVisible] = useState(false);
-
   const debitCardData = useSelector(
     (state: RootStateTypes) => state.debitCardModule.debitCardData ?? [],
   );
 
-  const [currentSelectedCardId, setCurrentSelectedCardId] = React.useState(
+  const [showCardNumber, setShowCardNumber] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+  const [addNewCardModalVisible, setAddNewCardModalVisible] = useState(false);
+  const [currentSelectedCardId, setCurrentSelectedCardId] = useState(
     debitCardData?.[0]?.id,
   );
 
-  const currentSelectedCard = React.useMemo(() => {
+  const currentSelectedCard = useMemo(() => {
     return (
       debitCardData?.find((card) => card?.id === currentSelectedCardId) ||
       debitCardData?.[0]
@@ -95,10 +90,10 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
         // ToDO
         break;
       case "weeklySpendLimit":
-        onSetSpendingLimit?.(toggleValue ?? false);
+        onSetSpendingLimit(toggleValue ?? false);
         break;
       case "freezeCard":
-        onFreezeCard?.(toggleValue ?? false);
+        onFreezeCard(toggleValue ?? false);
         break;
       case "getNewCard":
         setAddNewCardModalVisible(true);

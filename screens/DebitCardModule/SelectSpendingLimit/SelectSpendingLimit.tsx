@@ -2,13 +2,10 @@ import React, { useState } from "react";
 import {
   View,
   Text,
-  Image,
   StatusBar,
   TouchableOpacity,
   SafeAreaView,
   Alert,
-  Switch,
-  ScrollView,
 } from "react-native";
 import {
   SelectSpendingLimitProps,
@@ -18,14 +15,14 @@ import {
 import selectSpendingLimitScreenStyles from "./SelectSpendingLimit.style";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import type { StackNavigationProp } from "@react-navigation/stack";
-import colors from "../../../common/theme/color";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { updateWeeklySpendingLimitData } from "../../../redux/actions/debitCardModuleActions";
 
-const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = (props) => {
-  const cardDetails = props.cardDetails || {};
+const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = ({
+  route: { params = {} },
+}) => {
+  const cardDetails = params.cardDetails || {};
   const dispatch: AppDispatch = useDispatch();
   const navigation = useNavigation<SpendingLimitScreenNavigationProp>();
   const [selectedLimit, setSelectedLimit] = useState<number>(

@@ -7,7 +7,6 @@ import {
   StyleSheet,
   Modal,
 } from "react-native";
-import { OtpInputs } from "../../../common/components/OtpInputs/OtpInputs";
 import { AddNewCardModalProps } from "../TypeConstants";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
