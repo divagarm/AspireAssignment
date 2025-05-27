@@ -31,11 +31,14 @@ yarn install
 
 Start the Expo development server:
 
+```sh
 npm start
 
 or
 
 yarn start
+
+```
 
 Use the Expo Go app on your mobile device to scan the QR code and run the app.
 
@@ -43,11 +46,14 @@ Use the Expo Go app on your mobile device to scan the QR code and run the app.
 
 To run unit tests:
 
+```sh
 npm test
 
 or
 
 yarn test
+
+```
 
 License
 MIT
