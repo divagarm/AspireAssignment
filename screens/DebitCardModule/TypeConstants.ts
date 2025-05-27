@@ -37,7 +37,12 @@ export interface DebitCardScreenProps {
 }
 
 export interface SelectSpendingLimitProps {
-  cardDetails: DebitCardFormat;
+  route: {
+    params?: {
+      cardDetails?: DebitCardFormat;
+    };
+  };
+  navigation: StackNavigationProp<RootStackParamList, "SpendingLimit">;
 }
 
 // Navigation types

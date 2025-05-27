@@ -52,7 +52,7 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = (props) => {
 
   useEffect(() => {
     dispatch(fetchDebitCardData());
-  }, [dispatch]);
+  }, []);
 
   const currentSelectedCard = useMemo(() => {
     return (

@@ -153,6 +153,7 @@ const AddNewCardModal: React.FC<AddNewCardModalProps> = ({
             return (
               <View style={styles.modalContainer}>
                 <TouchableOpacity
+                  testID="closeButton"
                   style={styles.closeButton}
                   onPress={() => setAddNewCardModalVisible(false)}
                 >
@@ -184,6 +185,7 @@ const AddNewCardModal: React.FC<AddNewCardModalProps> = ({
                 ) : null}
                 <View style={styles.saveButtonContainer}>
                   <TouchableOpacity
+                    testID="saveButton"
                     style={[
                       styles.saveButton,
                       isValid && styles.saveButtonEnabled,

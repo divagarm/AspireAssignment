@@ -14,17 +14,16 @@ import {
 } from "../TypeConstants";
 import selectSpendingLimitScreenStyles from "./SelectSpendingLimit.style";
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "../../../redux/store";
 import { updateWeeklySpendingLimitData } from "../../../redux/actions/debitCardModuleActions";
 
 const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = ({
   route: { params = {} },
+  navigation,
 }) => {
-  const cardDetails = params.cardDetails || {};
+  const cardDetails = params.cardDetails;
   const dispatch: AppDispatch = useDispatch();
-  const navigation = useNavigation<SpendingLimitScreenNavigationProp>();
   const [selectedLimit, setSelectedLimit] = useState<number>(
     cardDetails?.weeklySpendLimit?.limit || 0,
   );
@@ -61,16 +60,17 @@ const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = ({
       );
       return;
     }
-
-    dispatch(
-      updateWeeklySpendingLimitData({
-        cardID: cardDetails.id,
-        weeklySpendLimitData: {
-          enabled: true,
-          limit: selectedLimit,
-        },
-      }),
-    );
+    if (cardDetails?.id) {
+      dispatch(
+        updateWeeklySpendingLimitData({
+          cardID: cardDetails?.id,
+          weeklySpendLimitData: {
+            enabled: true,
+            limit: selectedLimit,
+          },
+        }),
+      );
+    }
 
     // Show success message
     Alert.alert(
@@ -108,6 +108,7 @@ const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = ({
             {/* Header */}
             <View style={selectSpendingLimitScreenStyles.header}>
               <TouchableOpacity
+                testID="back-button"
                 style={selectSpendingLimitScreenStyles.backButton}
                 onPress={handleGoBack}
                 activeOpacity={0.7}
@@ -162,6 +163,7 @@ const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = ({
             <View style={selectSpendingLimitScreenStyles.optionsContainer}>
               {spendingLimitOptions.map((option) => (
                 <TouchableOpacity
+                  testID={`spending-limit-option-${option.id}`}
                   key={option.id}
                   style={[
                     selectSpendingLimitScreenStyles.optionButton,
@@ -187,6 +189,7 @@ const SelectSpendingLimit: React.FC<SelectSpendingLimitProps> = ({
             {/* Save Button */}
             <View style={selectSpendingLimitScreenStyles.saveButtonContainer}>
               <TouchableOpacity
+                testID="save-spending-limit-button"
                 style={[
                   selectSpendingLimitScreenStyles.saveButton,
                   isSaveEnabled() &&

@@ -16,6 +16,6 @@ export const fetchCreditCardDataAPI = async () => {
           freezeCard: { enabled: false },
         },
       });
-    }, 5000);
+    });
   });
 };

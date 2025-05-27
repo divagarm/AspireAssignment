@@ -1,22 +1,29 @@
 import React from "react";
-import { fireEvent } from "@testing-library/react-native";
+import { fireEvent, waitFor } from "@testing-library/react-native";
 import * as actions from "../redux/actions/debitCardModuleActions";
 import { mockNavigation, renderComponents } from "./jestHelperFunctions";
 import DebitCardScreen from "../screens/DebitCardModule/DebitCardScreen/DebitCardScreen";
 import { menuItems } from "../screens/DebitCardModule/Utility";
 
 describe("DebitCardScreen Component", () => {
-  const addNewDebitCard = jest.spyOn(actions, "addNewDebitCard");
   const spyUpdateWeeklySpendingLimitData = jest.spyOn(
     actions,
     "updateWeeklySpendingLimitData",
   );
   const spyUpdateFreezeCardData = jest.spyOn(actions, "updateFreezeCardData");
+  const spyStoreDebitCardData = jest.spyOn(actions, "storeDebitCardData");
 
   it("renders correctly", () => {
     const { getByText } = renderComponents(<DebitCardScreen />);
 
     expect(getByText("Debit Card")).toBeTruthy();
+  });
+
+  it("Test useEffect ", async () => {
+    renderComponents(<DebitCardScreen />);
+    await waitFor(() => {
+      expect(spyStoreDebitCardData).toHaveBeenCalled();
+    });
   });
 
   it("renders all Menu Items", () => {
@@ -202,7 +209,6 @@ describe("DebitCardScreen Component", () => {
     const menuItem = getByTestId(`menuItem-getNewCard`);
 
     fireEvent(menuItem, "onPress", true);
-    // expect(alert).toHaveBeenCalled();
   });
 
   it("handles Show Card Number Button", () => {
