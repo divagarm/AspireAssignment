@@ -2,9 +2,15 @@ import {
   UPDATE_WEEKLY_SPENDING_LIMIT_DATA,
   ADD_NEW_DEBIT_CARD,
   UPDATE_FREEZE_CARD_DATA,
+  FETCH_DEBIT_CARD_DATA,
+  STORE_DEBIT_CARD_DATA,
 } from "./debitCardModuleActionType";
 import { action } from "../helperFunctions";
 import { DebitCardFormat } from "../../screens/DebitCardModule/TypeConstants";
+
+export const fetchDebitCardData = () => action(FETCH_DEBIT_CARD_DATA);
+
+export const storeDebitCardData = () => action(STORE_DEBIT_CARD_DATA);
 
 export const addNewDebitCard = (data: DebitCardFormat) =>
   action(ADD_NEW_DEBIT_CARD, data);

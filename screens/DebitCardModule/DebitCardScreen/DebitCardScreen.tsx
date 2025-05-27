@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   View,
   Text,
@@ -25,6 +25,7 @@ import Carousel, { Pagination } from "react-native-snap-carousel";
 import AddNewCardModal from "./AddNewCardModal";
 import { AppDispatch } from "../../../redux/store";
 import {
+  fetchDebitCardData,
   updateFreezeCardData,
   updateWeeklySpendingLimitData,
 } from "../../../redux/actions/debitCardModuleActions";
@@ -48,6 +49,10 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = (props) => {
   const [currentSelectedCardId, setCurrentSelectedCardId] = useState(
     debitCardData?.[0]?.id,
   );
+
+  useEffect(() => {
+    dispatch(fetchDebitCardData());
+  }, [dispatch]);
 
   const currentSelectedCard = useMemo(() => {
     return (
@@ -120,6 +125,8 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = (props) => {
 
     return <Image source={menuIcons[item.id]} />;
   };
+
+  console.log("xxx debitCardData", debitCardData);
 
   return (
     <>

@@ -1,6 +1,7 @@
 import { DebitCardModuleType } from "../../screens/DebitCardModule/TypeConstants";
 import {
   addNewDebitCard,
+  storeDebitCardData,
   updateFreezeCardData,
   updateWeeklySpendingLimitData,
 } from "../actions/debitCardModuleActions";
@@ -10,12 +11,12 @@ import { TAction } from "../types/RootStateTypes";
 const initialState = {
   debitCardData: [
     {
-      id: 1,
-      holderName: "Mark Henry",
-      cardNumber: "5647893214567890",
-      expiryDate: "12/20",
-      cvv: "123",
-      balance: 3000,
+      id: -1,
+      holderName: "---",
+      cardNumber: "xxxx-xxxx-xxxx-xxxx",
+      expiryDate: "MM/YY",
+      cvv: "***",
+      balance: 0,
       currency: "S$",
       weeklySpendLimit: { enabled: false, limit: 0 },
       freezeCard: { enabled: false },
@@ -28,6 +29,12 @@ const debitCardModuleReducer = (
   action: TAction,
 ) => {
   switch (action.type) {
+    case getActionType(storeDebitCardData): {
+      const data = action.payload;
+      // Create a new array to maintain immutability
+      return { ...state, debitCardData: [data] };
+    }
+
     case getActionType(addNewDebitCard): {
       const data = action.payload;
       // Create a new array to maintain immutability
