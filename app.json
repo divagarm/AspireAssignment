@@ -14,6 +14,27 @@
     },
     "ios": {
       "supportsTablet": true
-    }
+    },
+    "plugins": [
+      [
+        "expo-font",
+        {
+          "android": {
+            "fonts": [
+              "./assets/fonts/AvenirNextLTProBold.otf",
+              "./assets/fonts/AvenirNextLTProIt.otf",
+              "./assets/fonts/AvenirNextLTProRegular.otf"
+            ]
+          },
+          "ios": {
+            "fonts": [
+              "./assets/fonts/AvenirNextLTProBold.otf",
+              "./assets/fonts/AvenirNextLTProIt.otf",
+              "./assets/fonts/AvenirNextLTProRegular.otf"
+            ]
+          }
+        }
+      ]
+    ]
   }
 }

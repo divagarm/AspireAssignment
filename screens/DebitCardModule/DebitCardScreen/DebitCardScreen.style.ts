@@ -81,6 +81,7 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
     color: "white",
     fontSize: 24,
     fontWeight: "bold",
+    fontFamily: "AvenirNextLTProIt",
   },
   logoContainer: {
     alignItems: "center",
