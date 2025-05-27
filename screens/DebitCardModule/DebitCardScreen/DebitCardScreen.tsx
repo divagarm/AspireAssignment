@@ -18,7 +18,6 @@ import {
   MenuItemData,
 } from "../TypeConstants";
 import { formatCardNumber, menuItems } from "../Utility";
-import { useNavigation } from "@react-navigation/native";
 import type { StackNavigationProp } from "@react-navigation/stack";
 import { useDispatch, useSelector } from "react-redux";
 import { RootStateTypes } from "../../../redux/types/RootStateTypes";
@@ -35,8 +34,8 @@ type RootStackParamList = {
   SelectSpendingLimit: { cardDetails: DebitCardFormat };
 };
 
-const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+const DebitCardScreen: React.FC<DebitCardScreenProps> = (props) => {
+  const { navigation } = props;
   const dispatch: AppDispatch = useDispatch();
 
   const debitCardData = useSelector(
@@ -87,7 +86,9 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
   const handleMenuItemPress = (itemId: string, toggleValue?: boolean): void => {
     switch (itemId) {
       case "topup":
-        // ToDO
+        alert(
+          "Top-up functionality is not implemented yet. Please check back later.",
+        );
         break;
       case "weeklySpendLimit":
         onSetSpendingLimit(toggleValue ?? false);
@@ -99,7 +100,9 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
         setAddNewCardModalVisible(true);
         break;
       case "deactivatedCard":
-        // ToDO
+        alert(
+          "Deactivated card functionality is not implemented yet. Please check back later.",
+        );
         break;
       default:
         break;
@@ -187,6 +190,7 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
                     {/* Show Card Number Button */}
                     <View style={debitCardScreenStyles.showCardContainer}>
                       <TouchableOpacity
+                        testID="showCardButton"
                         style={debitCardScreenStyles.showCardButton}
                         onPress={() => setShowCardNumber(!showCardNumber)}
                         activeOpacity={0.7}
@@ -351,6 +355,7 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
 
                   return (
                     <TouchableOpacity
+                      testID={`menuItem-${item.id}`}
                       disabled={item.toggleable}
                       key={item.id}
                       style={debitCardScreenStyles.menuItem}

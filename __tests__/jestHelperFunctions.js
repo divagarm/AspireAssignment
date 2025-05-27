@@ -14,7 +14,7 @@ export const configureMockStore = (initialState = {}) => {
   store = createStore(
     rootReducer,
     initialState,
-    compose(applyMiddleware(sagaMiddleware))
+    compose(applyMiddleware(sagaMiddleware)),
   );
 
   sagaMiddleware.run(combinedSagas);
@@ -26,7 +26,7 @@ export const renderComponents = (component, initialState) => {
   return render(
     <Provider store={configureMockStore(initialState)}>
       <NavigationContainer>{component}</NavigationContainer>
-    </Provider>
+    </Provider>,
   );
 };
 

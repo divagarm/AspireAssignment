@@ -36,6 +36,7 @@ const debitCardModuleReducer = (
 
     case getActionType(updateWeeklySpendingLimitData): {
       const { cardID, weeklySpendLimitData } = action.payload;
+      console.log("action.payload", action.payload);
 
       const updatedDebitCardData = state.debitCardData.map((card) =>
         card.id === cardID

@@ -25,8 +25,16 @@ export interface StatusBarData {
   signalStrength: number;
 }
 
+export interface TNavigation {
+  navigate: (screen: string, payload: object) => void;
+  goBack: () => void;
+  popToTop: () => void;
+}
+
 // Props interface
-export interface DebitCardScreenProps {}
+export interface DebitCardScreenProps {
+  navigation: TNavigation;
+}
 
 export interface SelectSpendingLimitProps {
   cardDetails: DebitCardFormat;
