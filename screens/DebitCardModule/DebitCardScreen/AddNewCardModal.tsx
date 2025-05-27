@@ -150,10 +150,6 @@ const AddNewCardModal: React.FC<AddNewCardModalProps> = ({
           }: any) => {
             const { cardNumber, cardHolderName } = values;
 
-            console.log("touched:", touched);
-            console.log("errors:", errors);
-            console.log("values:", values);
-            console.log("isValid:", isValid);
             return (
               <View style={styles.modalContainer}>
                 <TouchableOpacity

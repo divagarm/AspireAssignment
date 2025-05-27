@@ -126,8 +126,6 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = (props) => {
     return <Image source={menuIcons[item.id]} />;
   };
 
-  console.log("xxx debitCardData", debitCardData);
-
   return (
     <>
       <SafeAreaView style={debitCardScreenStyles.topSafeAreaView} />

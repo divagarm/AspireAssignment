@@ -21,7 +21,6 @@ function* fetchDebitCardDataSaga() {
     }
   } catch (error) {
     console.log("fetchDebitCardDataSaga failed", error);
-    // yield put(setAssessmentData('hai hello assessment'));
   }
 }
 
