@@ -26,7 +26,8 @@ or
 
 yarn install
 
-Running the App
+3.  Running the App
+
 Start the Expo development server:
 
 npm start
@@ -37,7 +38,8 @@ yarn start
 
 Use the Expo Go app on your mobile device to scan the QR code and run the app.
 
-Running Tests
+4.  Running Tests
+
 To run unit tests:
 
 npm test
