@@ -6,6 +6,8 @@ import {
   TouchableOpacity,
   StyleSheet,
   Modal,
+  KeyboardAvoidingView,
+  Platform,
 } from "react-native";
 import { AddNewCardModalProps } from "../TypeConstants";
 import { useDispatch, useSelector } from "react-redux";
@@ -28,11 +30,9 @@ const styles = StyleSheet.create({
   modalBackground: {
     flex: 1,
     backgroundColor: "rgba(0,0,0,0.5)",
-    justifyContent: "center",
-    alignItems: "center",
   },
   modalContainer: {
-    height: "42%",
+    height: 400,
     width: "80%",
     padding: 30,
     backgroundColor: "white",
@@ -94,6 +94,11 @@ const styles = StyleSheet.create({
   saveButtonTextEnabled: {
     color: "white",
   },
+  keyboardAvoidingView: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
 });
 
 const generateRandomExpiryDate = () => {
@@ -124,107 +129,115 @@ const AddNewCardModal: React.FC<AddNewCardModalProps> = ({
       visible={addNewCardModalVisible}
     >
       <View style={styles.modalBackground}>
-        <Formik
-          initialValues={{
-            cardNumber: "",
-            cardHolderName: "",
-          }}
-          onSubmit={() => {}}
-          validationSchema={Yup.object().shape({
-            cardNumber: Yup.string()
-              .required("required")
-              .matches(/^\d{16}$/, "Enter a valid 16-digit card number"),
-            cardHolderName: Yup.string().required("required"),
-          })}
-          validateOnMount
-          validateOnBlur
-          validateOnChange
-          component={({
-            handleChange,
-            handleBlur,
-            setFieldValue,
-            touched,
-            values,
-            errors,
-            isValid,
-          }: any) => {
-            const { cardNumber, cardHolderName } = values;
+        <KeyboardAvoidingView
+          keyboardVerticalOffset={Platform.select({ ios: 100, android: 0 })}
+          behavior={Platform.OS === "ios" ? "padding" : null}
+          style={styles.keyboardAvoidingView}
+        >
+          <Formik
+            initialValues={{
+              cardNumber: "",
+              cardHolderName: "",
+            }}
+            onSubmit={() => {}}
+            validationSchema={Yup.object().shape({
+              cardNumber: Yup.string()
+                .required("required")
+                .matches(/^\d{16}$/, "Enter a valid 16-digit card number"),
+              cardHolderName: Yup.string().required("required"),
+            })}
+            validateOnMount
+            validateOnBlur
+            validateOnChange
+            component={({
+              handleChange,
+              handleBlur,
+              setFieldValue,
+              touched,
+              values,
+              errors,
+              isValid,
+            }: any) => {
+              const { cardNumber, cardHolderName } = values;
 
-            return (
-              <View style={styles.modalContainer}>
-                <TouchableOpacity
-                  testID="closeButton"
-                  style={styles.closeButton}
-                  onPress={() => setAddNewCardModalVisible(false)}
-                >
-                  <Text style={styles.closeButtonText}>×</Text>
-                </TouchableOpacity>
-                <Text style={styles.title}>Card Number</Text>
-                <TextInput
-                  style={styles.input}
-                  value={cardNumber}
-                  onChangeText={handleChange("cardNumber")}
-                  onBlur={handleBlur("cardNumber")}
-                  placeholder="XXXX XXXX XXXX XXXX"
-                  keyboardType="numeric"
-                  maxLength={16}
-                />
-                {touched.cardNumber && errors.cardNumber ? (
-                  <Text style={{ color: "red" }}>{errors.cardNumber}</Text>
-                ) : null}
-                <Text style={styles.title2}>Card Holder Name</Text>
-                <TextInput
-                  style={styles.input}
-                  value={cardHolderName}
-                  onChangeText={handleChange("cardHolderName")}
-                  onBlur={handleBlur("cardHolderName")}
-                  placeholder="Enter card holder name"
-                />
-                {touched.cardHolderName && errors.cardHolderName ? (
-                  <Text style={{ color: "red" }}>{errors.cardHolderName}</Text>
-                ) : null}
-                <View style={styles.saveButtonContainer}>
+              return (
+                <View style={styles.modalContainer}>
                   <TouchableOpacity
-                    testID="saveButton"
-                    style={[
-                      styles.saveButton,
-                      isValid && styles.saveButtonEnabled,
-                    ]}
-                    onPress={() => {
-                      dispatch(
-                        addNewDebitCard({
-                          id: debitCardData.length + 1,
-                          holderName: cardHolderName,
-                          cardNumber: cardNumber,
-                          expiryDate: generateRandomExpiryDate(),
-                          cvv: generateRandomCVV(),
-                          balance: 500,
-                          currency: "S$",
-                          weeklySpendLimit: { enabled: false, limit: 0 },
-                          freezeCard: { enabled: false },
-                        }),
-                      );
-                      setAddNewCardModalVisible(false);
-                      setFieldValue("cardNumber", "");
-                      setFieldValue("cardHolderName", "");
-                    }}
-                    disabled={!isValid}
-                    activeOpacity={0.7}
+                    testID="closeButton"
+                    style={styles.closeButton}
+                    onPress={() => setAddNewCardModalVisible(false)}
                   >
-                    <Text
-                      style={[
-                        styles.saveButtonText,
-                        isValid && styles.saveButtonTextEnabled,
-                      ]}
-                    >
-                      Save
-                    </Text>
+                    <Text style={styles.closeButtonText}>×</Text>
                   </TouchableOpacity>
+                  <Text style={styles.title}>Card Number</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={cardNumber}
+                    onChangeText={handleChange("cardNumber")}
+                    onBlur={handleBlur("cardNumber")}
+                    placeholder="XXXX XXXX XXXX XXXX"
+                    keyboardType="numeric"
+                    maxLength={16}
+                  />
+                  {touched.cardNumber && errors.cardNumber ? (
+                    <Text style={{ color: "red" }}>{errors.cardNumber}</Text>
+                  ) : null}
+                  <Text style={styles.title2}>Card Holder Name</Text>
+                  <TextInput
+                    style={styles.input}
+                    value={cardHolderName}
+                    onChangeText={handleChange("cardHolderName")}
+                    onBlur={handleBlur("cardHolderName")}
+                    placeholder="Enter card holder name"
+                  />
+                  {touched.cardHolderName && errors.cardHolderName ? (
+                    <Text style={{ color: "red" }}>
+                      {errors.cardHolderName}
+                    </Text>
+                  ) : null}
+                  <View style={styles.saveButtonContainer}>
+                    <TouchableOpacity
+                      testID="saveButton"
+                      style={[
+                        styles.saveButton,
+                        isValid && styles.saveButtonEnabled,
+                      ]}
+                      onPress={() => {
+                        dispatch(
+                          addNewDebitCard({
+                            id: debitCardData.length + 1,
+                            holderName: cardHolderName,
+                            cardNumber: cardNumber,
+                            expiryDate: generateRandomExpiryDate(),
+                            cvv: generateRandomCVV(),
+                            balance: 500,
+                            currency: "S$",
+                            weeklySpendLimit: { enabled: false, limit: 0 },
+                            freezeCard: { enabled: false },
+                          }),
+                        );
+                        setAddNewCardModalVisible(false);
+                        setFieldValue("cardNumber", "");
+                        setFieldValue("cardHolderName", "");
+                      }}
+                      disabled={!isValid}
+                      activeOpacity={0.7}
+                    >
+                      <Text
+                        style={[
+                          styles.saveButtonText,
+                          isValid && styles.saveButtonTextEnabled,
+                        ]}
+                      >
+                        Save
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
-              </View>
-            );
-          }}
-        />
+              );
+            }}
+          />
+        </KeyboardAvoidingView>
       </View>
     </Modal>
   );
