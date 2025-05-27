@@ -22,7 +22,7 @@ This is the Aspire Assignment React Native project.
 
 npm install
 
-# or
+or
 
 yarn install
 
@@ -31,7 +31,7 @@ Start the Expo development server:
 
 npm start
 
-# or
+or
 
 yarn start
 
@@ -42,7 +42,7 @@ To run unit tests:
 
 npm test
 
-# or
+or
 
 yarn test
 
