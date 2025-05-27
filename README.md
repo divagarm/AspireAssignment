@@ -1,7 +1,5 @@
 # AspireAssignment
 
-This is the Aspire Assignment React Native project.
-
 ## Prerequisites
 
 - Node.js (v14 or above)
