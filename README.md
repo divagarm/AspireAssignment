@@ -18,11 +18,14 @@
 
 2.  Install dependencies:
 
+```sh
 npm install
 
 or
 
 yarn install
+
+```
 
 3.  Running the App
 
