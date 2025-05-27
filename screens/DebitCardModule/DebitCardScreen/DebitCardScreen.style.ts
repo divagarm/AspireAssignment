@@ -85,14 +85,6 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
   logoContainer: {
     alignItems: "center",
   },
-  logo: {
-    width: 32,
-    height: 32,
-    backgroundColor: "#01D167",
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
-  },
   balanceSection: {
     paddingHorizontal: 20,
     marginTop: 30,
@@ -159,32 +151,14 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
   card: {
     backgroundColor: "#01D167",
     borderRadius: 16,
-    padding: 20,
-    height: 200,
+    padding: 25,
+    height: 220,
     justifyContent: "space-between",
     marginHorizontal: 20,
   },
   cardHeader: {
     flexDirection: "row",
     justifyContent: "flex-end",
-  },
-  aspireLogoContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    gap: 6,
-  },
-  aspireLogo: {
-    width: 20,
-    height: 20,
-    backgroundColor: "rgba(255,255,255,0.2)",
-    borderRadius: 10,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  aspireText: {
-    color: "white",
-    fontSize: 16,
-    fontWeight: "bold",
   },
   cardholderName: {
     color: "white",
@@ -203,7 +177,6 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
   },
   cardFooter: {
     flexDirection: "row",
-    justifyContent: "space-between",
     alignItems: "center",
     marginTop: 20,
   },
@@ -211,15 +184,10 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
     color: "white",
     fontSize: 12,
     fontWeight: "500",
+    marginRight: 30,
   },
   visaContainer: {
     alignItems: "flex-end",
-  },
-  visaText: {
-    color: "white",
-    fontSize: 18,
-    fontWeight: "bold",
-    fontStyle: "italic",
   },
   limitContainer: {
     paddingHorizontal: 20,
@@ -264,14 +232,6 @@ const debitCardScreenStyles = StyleSheet.create<Styles>({
     flexDirection: "row",
     alignItems: "center",
     gap: 15,
-  },
-  menuIcon: {
-    width: 48,
-    height: 48,
-    backgroundColor: "#4A6FA5",
-    borderRadius: 24,
-    justifyContent: "center",
-    alignItems: "center",
   },
   menuTextContainer: {
     flex: 1,

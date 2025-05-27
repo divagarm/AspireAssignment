@@ -13,8 +13,6 @@ export interface MenuItemData {
   id: string;
   title: string;
   subtitle: string;
-  icon: string;
-  iconLibrary: string;
   toggleable: boolean;
   inverseTitle: string;
   inverseSubtitle: string;

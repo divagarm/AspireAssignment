@@ -8,6 +8,7 @@ import {
   Dimensions,
   Switch,
   ScrollView,
+  Image,
 } from "react-native";
 import { Ionicons, MaterialIcons, Feather } from "@expo/vector-icons";
 import debitCardScreenStyles from "./DebitCardScreen.style";
@@ -75,7 +76,6 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
   };
 
   const onFreezeCard = (toggleValue: boolean) => {
-    console.log("xxx onFreezeCard", toggleValue);
     dispatch(
       updateFreezeCardData({
         cardID: currentSelectedCard.id,
@@ -107,13 +107,16 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
   };
 
   const renderMenuIcon = (item: MenuItemData): JSX.Element => {
-    const IconComponent =
-      item.iconLibrary === "Ionicons" ? Ionicons : MaterialIcons;
-    return <IconComponent name={item.icon as any} size={24} color="white" />;
-  };
+    const menuIcons: { [key: string]: any } = {
+      topup: require("../../../assets/top_up.png"),
+      weeklySpendLimit: require("../../../assets/weekly_report.png"),
+      freezeCard: require("../../../assets/freeze_card.png"),
+      getNewCard: require("../../../assets/get_new_card.png"),
+      deactivatedCard: require("../../../assets/deactivated_cards.png"),
+    };
 
-  console.log("xxx currentSelectedCard", currentSelectedCard);
-  console.log("xxx debitCardData", debitCardData);
+    return <Image source={menuIcons[item.id]} />;
+  };
 
   return (
     <>
@@ -141,9 +144,7 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
                   Debit Card
                 </Text>
                 <View style={debitCardScreenStyles.logoContainer}>
-                  <View style={debitCardScreenStyles.logo}>
-                    <Ionicons name="chevron-up" size={20} color="white" />
-                  </View>
+                  <Image source={require("../../../assets/logo.png")} />
                 </View>
               </View>
             </View>
@@ -226,20 +227,9 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
                         ]}
                       >
                         <View style={debitCardScreenStyles.cardHeader}>
-                          <View
-                            style={debitCardScreenStyles.aspireLogoContainer}
-                          >
-                            <View style={debitCardScreenStyles.aspireLogo}>
-                              <Ionicons
-                                name="chevron-up"
-                                size={16}
-                                color="white"
-                              />
-                            </View>
-                            <Text style={debitCardScreenStyles.aspireText}>
-                              aspire
-                            </Text>
-                          </View>
+                          <Image
+                            source={require("../../../assets/aspire_logo.png")}
+                          />
                         </View>
 
                         <Text style={debitCardScreenStyles.cardholderName}>
@@ -269,11 +259,12 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
                                 : "***"}
                             </Text>
                           </View>
-                          <View style={debitCardScreenStyles.visaContainer}>
-                            <Text style={debitCardScreenStyles.visaText}>
-                              VISA
-                            </Text>
-                          </View>
+                        </View>
+
+                        <View style={debitCardScreenStyles.visaContainer}>
+                          <Image
+                            source={require("../../../assets/visa_logo.png")}
+                          />
                         </View>
                       </View>
                     </View>
@@ -366,10 +357,7 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
                       onPress={() => handleMenuItemPress(item.id)}
                       activeOpacity={0.7}
                     >
-                      <View style={debitCardScreenStyles.menuIcon}>
-                        {renderMenuIcon(item)}
-                        {/* <TopUp width = {32} height = {32} /> */}
-                      </View>
+                      {renderMenuIcon(item)}
                       <View style={debitCardScreenStyles.menuTextContainer}>
                         <Text style={debitCardScreenStyles.menuTitle}>
                           {title}
@@ -380,6 +368,7 @@ const DebitCardScreen: React.FC<DebitCardScreenProps> = () => {
                       </View>
                       {item.toggleable && (
                         <Switch
+                          testID={`toggleSwitch-${item.id}`}
                           trackColor={{ false: "#EEEEEE", true: "#01D167" }}
                           thumbColor={toggled ? "#EEEEEE" : "#f4f3f4"}
                           ios_backgroundColor="#EEEEEE"
